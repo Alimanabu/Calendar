@@ -1,0 +1,265 @@
+import type { Holiday } from '../core/types';
+
+// Праздники Республики Казахстан.
+// Государственные — по Закону «О праздниках в Республике Казахстан».
+// Профессиональные — выборка из Перечня профессиональных праздников (приказ Минтруда,
+// последняя проверенная редакция — 2025 г.). Перечень регулярно меняется: сверяйте даты
+// на egov.kz → «Профессиональные праздники» и правьте этот файл.
+// Даты Ораза айта и Курбан айта определяются по лунному календарю: 2026 — по объявлению
+// ДУМК, последующие годы — расчётные, ДУМК может сдвинуть их на день.
+
+export const HOLIDAYS_KZ: Holiday[] = [
+  // Государственные и национальные
+  {
+    id: 'new-year',
+    name: 'Новый год',
+    kind: 'state',
+    rule: { type: 'fixed', month: 1, day: 1 },
+    dayOff: true,
+    note: '1–2 января',
+  },
+  {
+    id: 'womens-day',
+    name: 'Международный женский день',
+    kind: 'state',
+    rule: { type: 'fixed', month: 3, day: 8 },
+    dayOff: true,
+  },
+  { id: 'gratitude-day', name: 'День благодарности', kind: 'state', rule: { type: 'fixed', month: 3, day: 1 } },
+  {
+    id: 'nauryz',
+    name: 'Наурыз мейрамы',
+    kind: 'state',
+    rule: { type: 'fixed', month: 3, day: 21 },
+    dayOff: true,
+    note: '21–23 марта',
+  },
+  {
+    id: 'unity-day',
+    name: 'Праздник единства народа Казахстана',
+    kind: 'state',
+    rule: { type: 'fixed', month: 5, day: 1 },
+    dayOff: true,
+  },
+  {
+    id: 'defender-day',
+    name: 'День защитника Отечества',
+    kind: 'state',
+    rule: { type: 'fixed', month: 5, day: 7 },
+    dayOff: true,
+  },
+  { id: 'victory-day', name: 'День Победы', kind: 'state', rule: { type: 'fixed', month: 5, day: 9 }, dayOff: true },
+  { id: 'capital-day', name: 'День столицы', kind: 'state', rule: { type: 'fixed', month: 7, day: 6 }, dayOff: true },
+  {
+    id: 'constitution-day',
+    name: 'День Конституции',
+    kind: 'state',
+    rule: { type: 'fixed', month: 8, day: 30 },
+    dayOff: true,
+  },
+  {
+    id: 'republic-day',
+    name: 'День Республики',
+    kind: 'state',
+    rule: { type: 'fixed', month: 10, day: 25 },
+    dayOff: true,
+  },
+  {
+    id: 'independence-day',
+    name: 'День Независимости',
+    kind: 'state',
+    rule: { type: 'fixed', month: 12, day: 16 },
+    dayOff: true,
+  },
+
+  // Религиозные
+  {
+    id: 'orthodox-christmas',
+    name: 'Православное Рождество',
+    kind: 'religious',
+    rule: { type: 'fixed', month: 1, day: 7 },
+    dayOff: true,
+  },
+  {
+    id: 'oraza-ait',
+    name: 'Ораза айт',
+    kind: 'religious',
+    rule: { type: 'table', dates: { 2026: '03-20', 2027: '03-10', 2028: '02-27', 2029: '02-15', 2030: '02-05' } },
+    note: 'Дата по лунному календарю, уточняется ДУМК',
+  },
+  {
+    id: 'kurban-ait',
+    name: 'Курбан айт',
+    kind: 'religious',
+    rule: { type: 'table', dates: { 2026: '05-27', 2027: '05-16', 2028: '05-05', 2029: '04-24', 2030: '04-13' } },
+    dayOff: true,
+    note: 'Дата по лунному календарю, уточняется ДУМК',
+  },
+
+  // Другие поводы поздравить
+  { id: 'valentines-day', name: 'День всех влюблённых', kind: 'other', rule: { type: 'fixed', month: 2, day: 14 } },
+  { id: 'knowledge-day', name: 'День знаний', kind: 'other', rule: { type: 'fixed', month: 9, day: 1 } },
+
+  // Профессиональные
+  {
+    id: 'prof-civil-aviation',
+    name: 'День работников гражданской авиации',
+    kind: 'professional',
+    profession: 'работники гражданской авиации',
+    rule: { type: 'fixed', month: 2, day: 1 },
+  },
+  {
+    id: 'prof-geologist',
+    name: 'День геолога',
+    kind: 'professional',
+    profession: 'геологи',
+    rule: { type: 'nthWeekday', month: 4, weekday: 0, n: 1 },
+  },
+  {
+    id: 'prof-public-services',
+    name: 'День работников сферы государственных услуг',
+    kind: 'professional',
+    profession: 'работники ЦОНов и госуслуг',
+    rule: { type: 'fixed', month: 4, day: 7 },
+  },
+  {
+    id: 'prof-science',
+    name: 'День работников науки',
+    kind: 'professional',
+    profession: 'учёные',
+    rule: { type: 'fixed', month: 4, day: 12 },
+  },
+  {
+    id: 'prof-housing',
+    name: 'День работников ЖКХ',
+    kind: 'professional',
+    profession: 'работники ЖКХ',
+    rule: { type: 'fixed', month: 4, day: 16 },
+  },
+  {
+    id: 'prof-communications',
+    name: 'День работников связи',
+    kind: 'professional',
+    profession: 'связисты и айтишники',
+    rule: { type: 'fixed', month: 5, day: 17 },
+  },
+  {
+    id: 'prof-culture',
+    name: 'День работников культуры и искусства',
+    kind: 'professional',
+    profession: 'работники культуры и искусства',
+    rule: { type: 'fixed', month: 5, day: 21 },
+  },
+  {
+    id: 'prof-medical',
+    name: 'День медицинского работника',
+    kind: 'professional',
+    profession: 'врачи и медсёстры',
+    rule: { type: 'nthWeekday', month: 6, weekday: 0, n: 3 },
+  },
+  {
+    id: 'prof-police',
+    name: 'День полиции',
+    kind: 'professional',
+    profession: 'полицейские',
+    rule: { type: 'fixed', month: 6, day: 23 },
+  },
+  {
+    id: 'prof-judges',
+    name: 'День судьи и работников суда',
+    kind: 'professional',
+    profession: 'судьи и работники судов',
+    rule: { type: 'fixed', month: 6, day: 24 },
+  },
+  {
+    id: 'prof-media',
+    name: 'День работников СМИ',
+    kind: 'professional',
+    profession: 'журналисты',
+    rule: { type: 'fixed', month: 6, day: 28 },
+  },
+  {
+    id: 'prof-transport',
+    name: 'День работников транспорта',
+    kind: 'professional',
+    profession: 'работники транспорта',
+    rule: { type: 'nthWeekday', month: 8, weekday: 0, n: 1 },
+  },
+  {
+    id: 'prof-builder',
+    name: 'День строителя',
+    kind: 'professional',
+    profession: 'строители',
+    rule: { type: 'nthWeekday', month: 8, weekday: 0, n: 2 },
+  },
+  {
+    id: 'prof-sport',
+    name: 'День спорта',
+    kind: 'professional',
+    profession: 'спортсмены и тренеры',
+    rule: { type: 'nthWeekday', month: 8, weekday: 0, n: 3 },
+  },
+  {
+    id: 'prof-border-guard',
+    name: 'День пограничника',
+    kind: 'professional',
+    profession: 'пограничники',
+    rule: { type: 'fixed', month: 8, day: 18 },
+  },
+  {
+    id: 'prof-oil-gas',
+    name: 'День работников нефтегазового комплекса',
+    kind: 'professional',
+    profession: 'нефтяники и газовики',
+    rule: { type: 'nthWeekday', month: 9, weekday: 0, n: 1 },
+  },
+  {
+    id: 'prof-machine-builder',
+    name: 'День машиностроителя',
+    kind: 'professional',
+    profession: 'машиностроители',
+    rule: { type: 'nthWeekday', month: 9, weekday: 0, n: -1 },
+  },
+  {
+    id: 'prof-higher-education',
+    name: 'День работников высшего образования',
+    kind: 'professional',
+    profession: 'преподаватели вузов',
+    rule: { type: 'fixed', month: 10, day: 1 },
+  },
+  {
+    id: 'prof-vocational-education',
+    name: 'День работников технического и профессионального образования',
+    kind: 'professional',
+    profession: 'преподаватели колледжей',
+    rule: { type: 'fixed', month: 10, day: 2 },
+  },
+  {
+    id: 'prof-teacher',
+    name: 'День учителя',
+    kind: 'professional',
+    profession: 'учителя',
+    rule: { type: 'fixed', month: 10, day: 5 },
+  },
+  {
+    id: 'prof-catering',
+    name: 'День работников общественного питания',
+    kind: 'professional',
+    profession: 'повара и работники кафе',
+    rule: { type: 'fixed', month: 10, day: 20 },
+  },
+  {
+    id: 'prof-finance',
+    name: 'День работников финансовой системы',
+    kind: 'professional',
+    profession: 'финансисты и банкиры',
+    rule: { type: 'fixed', month: 11, day: 15 },
+  },
+  {
+    id: 'prof-energy',
+    name: 'День энергетика',
+    kind: 'professional',
+    profession: 'энергетики',
+    rule: { type: 'fixed', month: 12, day: 22 },
+  },
+];
