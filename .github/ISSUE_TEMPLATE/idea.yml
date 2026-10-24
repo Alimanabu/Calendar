@@ -1,0 +1,30 @@
+name: 💡 Идея
+description: Предложить новую функцию или улучшение
+title: "Идея: "
+labels: ["идея"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Опишите идею своими словами — техническими деталями можно не заморачиваться.
+        Хотите, чтобы Claude сразу ответил или попробовал сделать? Напишите в комментарии `@claude` и что от него нужно.
+  - type: textarea
+    id: what
+    attributes:
+      label: Что хочется
+      placeholder: Например, «чтобы в напоминании о дне рождения сразу был номер телефона и кнопка позвонить»
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Зачем / пример из жизни
+      placeholder: Когда это пригодится?
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Насколько важно
+      options:
+        - Было бы здорово
+        - Очень нужно
+        - Без этого неудобно пользоваться

@@ -1,0 +1,17 @@
+name: 🐞 Что-то не работает
+description: Сообщить об ошибке
+title: "Ошибка: "
+labels: ["ошибка"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: Что случилось
+      placeholder: Что делали, что ожидали и что получилось. Скриншот очень помогает.
+    validations:
+      required: true
+  - type: input
+    id: phone
+    attributes:
+      label: Телефон
+      placeholder: Например, iPhone 13 или Samsung A54
