@@ -1,0 +1,102 @@
+# Публикует приложение для iPhone: его открывают в бесплатном приложении Expo Go.
+# Нужен секрет EXPO_TOKEN (expo.dev → Account settings → Access tokens).
+# Ссылка и QR-код для телефона — в релизе «iphone»:
+# https://github.com/<владелец>/<репозиторий>/releases/tag/iphone
+name: Публикация для iPhone
+
+on:
+  push:
+    paths:
+      - "app/**"
+      - ".github/workflows/iphone-expo-go.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: iphone-expo-go
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    if: github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+    steps:
+      - name: Нет EXPO_TOKEN
+        if: env.EXPO_TOKEN == ''
+        working-directory: .
+        run: echo "::notice::Публикация для iPhone пропущена — добавьте секрет EXPO_TOKEN (см. README)."
+
+      - uses: actions/checkout@v6
+        if: env.EXPO_TOKEN != ''
+
+      - uses: actions/setup-node@v4
+        if: env.EXPO_TOKEN != ''
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - name: Установка зависимостей
+        if: env.EXPO_TOKEN != ''
+        run: npm ci
+
+      - name: Тесты
+        if: env.EXPO_TOKEN != ''
+        run: npm test
+
+      # Создаёт проект на expo.dev при первом запуске и записывает его id в app.json.
+      - name: Привязка к expo.dev
+        if: env.EXPO_TOKEN != ''
+        run: npx eas-cli@latest init --non-interactive --force
+
+      # Expo Go открывает только обновления с версией вида exposdk:58.0.0.
+      - name: Настройка обновлений
+        if: env.EXPO_TOKEN != ''
+        run: |
+          node -e "
+            const fs = require('fs');
+            const c = JSON.parse(fs.readFileSync('app.json'));
+            const id = c.expo.extra.eas.projectId;
+            c.expo.runtimeVersion = { policy: 'sdkVersion' };
+            c.expo.updates = { ...c.expo.updates, url: 'https://u.expo.dev/' + id };
+            fs.writeFileSync('app.json', JSON.stringify(c, null, 2));
+            const sdk = require('expo/package.json').version.split('.')[0] + '.0.0';
+            fs.appendFileSync(process.env.GITHUB_ENV, 'PROJECT_ID=' + id + '\nRUNTIME=exposdk:' + sdk + '\n');
+          "
+
+      - name: Публикация
+        if: env.EXPO_TOKEN != ''
+        env:
+          MESSAGE: ${{ github.event.head_commit.message || 'Ручной запуск' }}
+        run: npx eas-cli@latest update --channel preview --platform ios --message "$(echo "$MESSAGE" | head -1)" --non-interactive
+
+      - name: Ссылка для iPhone в релиз «iphone»
+        if: env.EXPO_TOKEN != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          QR="https://qr.expo.dev/eas-update?slug=exp&projectId=${PROJECT_ID}&runtimeVersion=${RUNTIME}&channel=preview"
+          LINK=$(curl -fsS "${QR}&format=url" || echo "")
+          cat > notes.md <<NOTES
+          Как открыть Calendar на iPhone:
+
+          1. Установите бесплатное приложение [Expo Go](https://apps.apple.com/app/expo-go/id982107779) из App Store.
+          2. Наведите камеру iPhone на QR-код ниже и нажмите на появившуюся ссылку — Calendar откроется в Expo Go.
+          3. Разрешите уведомления.
+
+          В следующий раз Calendar будет в Expo Go в списке недавно открытых. Обновления подтягиваются сами.
+
+          ![QR-код для Expo Go](${QR})
+
+          Ссылка: \`${LINK}\`
+          NOTES
+          gh release delete iphone --yes --cleanup-tag || true
+          gh release create iphone --target "${{ github.sha }}" --title "Calendar для iPhone" --notes-file notes.md --latest=false
+          cat notes.md >> "$GITHUB_STEP_SUMMARY"
