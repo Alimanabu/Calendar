@@ -8,7 +8,7 @@ const TOKEN = "test-token-1234567890";
 
 const sampleResponse: IdeasResponse = {
   gifts: [{ title: "Книга", why: "Любит читать", priceRange: "5 000–10 000 ₸" }],
-  greetings: [{ style: "тёплое", text: "С днём рождения!" }],
+  greetings: [{ style: "тёплое", language: "ru", text: "С днём рождения!" }],
   tips: ["Закажите заранее"],
 };
 
@@ -32,7 +32,9 @@ describe("POST /v1/ideas", () => {
     const res = await post(app, validBody);
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual(sampleResponse);
-    expect(generate).toHaveBeenCalledWith(expect.objectContaining({ language: "ru", exclude: [] }));
+    expect(generate).toHaveBeenCalledWith(
+      expect.objectContaining({ language: "both", exclude: [] }),
+    );
   });
 
   it("rejects a wrong token", async () => {
@@ -87,7 +89,10 @@ describe("buildUserPrompt", () => {
     expect(prompt).toContain("через 31 дн.");
     expect(prompt).toContain("Бюджет: до 20 000 ₸");
     expect(prompt).toContain("уже предлагались, придумай другие: Книга");
-    expect(prompt).toContain("на казахском");
+    expect(prompt).toContain("на казахском языке.");
+    expect(buildUserPrompt(IdeasRequestSchema.parse(validBody))).toContain(
+      "на русском и на казахском",
+    );
   });
 
   it("handles holidays without specific people", () => {

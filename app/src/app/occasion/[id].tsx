@@ -162,6 +162,7 @@ function OccasionDetails({ occasion, data, autoLoad }: { occasion: Occasion; dat
               >
                 <Text style={[styles.hint, { marginTop: 0, marginBottom: 4, textTransform: 'uppercase' }]}>
                   {g.style}
+                  {g.language ? ` · ${g.language === 'kk' ? 'қазақша' : 'по-русски'}` : ''}
                 </Text>
                 <Text style={styles.body}>{g.text}</Text>
               </Pressable>

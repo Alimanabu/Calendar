@@ -39,7 +39,10 @@ describe("createIdeasGenerator", () => {
   it("sends a structured-output request with server-side fallback and parses the reply", async () => {
     const ideas = {
       gifts: [{ title: "Мяч", why: "Любит футбол", priceRange: "15 000 ₸" }],
-      greetings: [{ style: "короткое", text: "Арман, с днём рождения!" }],
+      greetings: [
+        { style: "короткое", language: "ru", text: "Арман, с днём рождения!" },
+        { style: "короткое", language: "kk", text: "Арман, туған күніңмен!" },
+      ],
       tips: [],
     };
     const { client, calls } = fakeClient({ stop_reason: "end_turn", text: JSON.stringify(ideas) });

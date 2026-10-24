@@ -92,6 +92,7 @@ export default function SettingsScreen() {
         <SectionTitle>Язык поздравлений</SectionTitle>
         <Chips
           options={[
+            { value: 'both', label: 'Оба языка' },
             { value: 'ru', label: 'Русский' },
             { value: 'kk', label: 'Қазақша' },
           ]}

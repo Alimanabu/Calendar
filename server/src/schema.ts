@@ -28,7 +28,8 @@ export const IdeasRequestSchema = z.object({
     .max(10)
     .default([]),
   budget: z.string().max(100).optional(),
-  language: z.enum(["ru", "kk"]).default("ru"),
+  // both — каждое поздравление и на русском, и на казахском.
+  language: z.enum(["ru", "kk", "both"]).default("both"),
   // Названия уже предложенных подарков — чтобы «Ещё идеи» не повторялись.
   exclude: z.array(z.string().max(200)).max(30).default([]),
 });
@@ -46,6 +47,7 @@ export const IdeasResponseSchema = z.object({
   greetings: z.array(
     z.object({
       style: z.string(),
+      language: z.enum(["ru", "kk"]),
       text: z.string(),
     }),
   ),

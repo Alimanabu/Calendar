@@ -22,13 +22,13 @@ export interface IdeasRequest {
     profession?: string;
   }[];
   budget?: string;
-  language: 'ru' | 'kk';
+  language: 'ru' | 'kk' | 'both';
   exclude: string[];
 }
 
 export interface IdeasResponse {
   gifts: { title: string; why: string; priceRange: string }[];
-  greetings: { style: string; text: string }[];
+  greetings: { style: string; language?: 'ru' | 'kk'; text: string }[];
   tips: string[];
 }
 

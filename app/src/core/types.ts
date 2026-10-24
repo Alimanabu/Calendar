@@ -77,7 +77,7 @@ export interface Settings {
   notifyHour: number;
   /** Ручные включения/выключения праздников поверх значений по умолчанию. */
   holidayOverrides: Record<string, boolean>;
-  greetingLanguage: 'ru' | 'kk';
+  greetingLanguage: 'ru' | 'kk' | 'both';
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -96,7 +96,7 @@ export const DEFAULT_SETTINGS: Settings = {
   },
   notifyHour: 10,
   holidayOverrides: {},
-  greetingLanguage: 'ru',
+  greetingLanguage: 'both',
 };
 
 export interface AppData {
