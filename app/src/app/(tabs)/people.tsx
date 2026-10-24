@@ -29,7 +29,7 @@ export default function PeopleScreen() {
                   <Muted>
                     🎂 {formatDayMonth(p.birthday.month, p.birthday.day)}
                     {p.birthday.year ? ` ${p.birthday.year}` : ''}
-                    {p.interests ? ` · ${p.interests}` : ''}
+                    {p.notes ? ` · ${p.notes}` : ''}
                   </Muted>
                 </View>
               </Row>

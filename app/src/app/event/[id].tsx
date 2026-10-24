@@ -84,7 +84,7 @@ function EventForm({ existing }: { existing?: CustomEvent }) {
         </>
       ) : null}
 
-      <Field label="Заметки" value={notes} onChangeText={setNotes} placeholder="Подробности для Claude" multiline />
+      <Field label="Заметки" value={notes} onChangeText={setNotes} placeholder="Что важно не забыть" multiline />
 
       <Button title="Сохранить" onPress={save} />
       {existing ? <Button title="Удалить" variant="danger" onPress={remove} /> : null}

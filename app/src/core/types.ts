@@ -23,10 +23,7 @@ export interface Person {
   name: string;
   relation: Relation;
   birthday: DayMonth;
-  gender?: 'male' | 'female';
-  interests?: string;
   notes?: string;
-  budget?: string;
   /** Профессиональные праздники, в которые этого человека нужно поздравить. */
   professionHolidayIds: string[];
 }
@@ -77,7 +74,6 @@ export interface Settings {
   notifyHour: number;
   /** Ручные включения/выключения праздников поверх значений по умолчанию. */
   holidayOverrides: Record<string, boolean>;
-  greetingLanguage: 'ru' | 'kk' | 'both';
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -96,7 +92,6 @@ export const DEFAULT_SETTINGS: Settings = {
   },
   notifyHour: 10,
   holidayOverrides: {},
-  greetingLanguage: 'both',
 };
 
 export interface AppData {

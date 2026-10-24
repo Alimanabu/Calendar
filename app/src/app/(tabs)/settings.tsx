@@ -3,10 +3,9 @@ import { dateToKey } from '../../core/dates';
 import { upcomingOccasions } from '../../core/occasions';
 import { HOLIDAY_KIND_LABELS, RELATIONS, RELATION_LABELS, type HolidayKind } from '../../core/types';
 import { HOLIDAYS_KZ } from '../../data/holidaysKz';
-import { ideasConfigured } from '../../services/ideasApi';
 import { sendTestNotification, setupNotifications, syncReminders } from '../../services/notifications';
 import { useStore } from '../../state/store';
-import { Button, Card, Chips, Muted, Screen, SectionTitle, styles } from '../../ui/kit';
+import { Button, Card, Chips, Screen, SectionTitle, styles } from '../../ui/kit';
 
 const LEAD_OPTIONS = [30, 14, 7, 3, 1, 0].map((d) => ({
   value: d,
@@ -86,24 +85,6 @@ export default function SettingsScreen() {
         <SectionTitle>Время уведомлений</SectionTitle>
         <Chips options={HOURS} value={settings.notifyHour} onChange={(h) => updateSettings({ notifyHour: h })} />
         <Button title="Проверить уведомления" variant="secondary" onPress={testNotification} />
-      </Card>
-
-      <Card>
-        <SectionTitle>Язык поздравлений</SectionTitle>
-        <Chips
-          options={[
-            { value: 'both', label: 'Оба языка' },
-            { value: 'ru', label: 'Русский' },
-            { value: 'kk', label: 'Қазақша' },
-          ]}
-          value={settings.greetingLanguage}
-          onChange={(greetingLanguage) => updateSettings({ greetingLanguage })}
-        />
-        <Muted>
-          {ideasConfigured
-            ? 'Идеи подарков и поздравления генерирует Claude через ваш сервер.'
-            : 'Сервер идей не настроен: напоминания работают, но идей от Claude не будет. См. README.'}
-        </Muted>
       </Card>
     </Screen>
   );

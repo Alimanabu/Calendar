@@ -21,15 +21,12 @@ function PersonForm({ existing }: { existing?: Person }) {
   const { savePerson, deletePerson } = useStore();
   const [name, setName] = useState(existing?.name ?? '');
   const [relation, setRelation] = useState<Relation>(existing?.relation ?? 'family');
-  const [gender, setGender] = useState<Person['gender']>(existing?.gender);
   const [birthday, setBirthday] = useState<DayMonthDraft>({
     day: existing ? String(existing.birthday.day) : '',
     month: existing?.birthday.month ?? new Date().getMonth() + 1,
     year: existing?.birthday.year ? String(existing.birthday.year) : '',
   });
-  const [interests, setInterests] = useState(existing?.interests ?? '');
   const [notes, setNotes] = useState(existing?.notes ?? '');
-  const [budget, setBudget] = useState(existing?.budget ?? '');
   const [professions, setProfessions] = useState<string[]>(existing?.professionHolidayIds ?? []);
 
   const save = () => {
@@ -40,15 +37,12 @@ function PersonForm({ existing }: { existing?: Person }) {
       id: existing?.id ?? newId(),
       name: name.trim(),
       relation,
-      gender,
       birthday: {
         day: Number(birthday.day),
         month: birthday.month,
         year: birthday.year ? Number(birthday.year) : undefined,
       },
-      interests: interests.trim() || undefined,
       notes: notes.trim() || undefined,
-      budget: budget.trim() || undefined,
       professionHolidayIds: professions,
     });
     router.back();
@@ -79,39 +73,20 @@ function PersonForm({ existing }: { existing?: Person }) {
         onChange={setRelation}
       />
 
-      <Text style={styles.label}>Пол (для поздравлений)</Text>
-      <Chips
-        options={[
-          { value: 'female', label: 'Женщина' },
-          { value: 'male', label: 'Мужчина' },
-        ]}
-        value={gender ?? []}
-        onChange={(g) => setGender(gender === g ? undefined : g)}
-      />
-
       <DayMonthInput
         label="День рождения"
         value={birthday}
         onChange={setBirthday}
-        yearHint="С годом напоминание покажет возраст, а Claude учтёт его в идеях."
+        yearHint="С годом напоминание покажет, сколько исполнится."
       />
 
-      <Field
-        label="Интересы и увлечения"
-        value={interests}
-        onChangeText={setInterests}
-        placeholder="Футбол, кофе, путешествия, сад…"
-        multiline
-        hint="Чем подробнее, тем точнее идеи подарков."
-      />
       <Field
         label="Заметки"
         value={notes}
         onChangeText={setNotes}
-        placeholder="Что уже дарили, размер одежды, мечтает о…"
+        placeholder="Что любит, что уже дарили, идеи подарков…"
         multiline
       />
-      <Field label="Бюджет на подарок" value={budget} onChangeText={setBudget} placeholder="до 20 000 ₸" />
 
       <Text style={styles.label}>Профессиональные праздники</Text>
       <Muted>Отметьте, если человека нужно поздравить в профессиональный праздник.</Muted>

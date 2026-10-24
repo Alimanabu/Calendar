@@ -125,7 +125,7 @@ describe('planReminders', () => {
     const reminders = planReminders(data(), HOLIDAYS_KZ, now);
     const teacher = reminders.find((r) => r.occasionId === 'holiday:prof-teacher:2027-10-05' && r.daysBefore === 1);
     expect(teacher?.title).toBe('🎉 Завтра: День учителя');
-    expect(teacher?.body).toBe('5 октября, вторник. Поздравьте: Мама. Откройте, чтобы получить идеи поздравления.');
+    expect(teacher?.body).toBe('5 октября, вторник. Поздравьте: Мама.');
     const republic = reminders.find((r) => r.occasionId === 'holiday:republic-day:2026-10-25');
     expect(republic?.title).toBe('🎉 Сегодня: День Республики');
   });

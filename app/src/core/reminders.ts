@@ -35,16 +35,16 @@ export function reminderText(occasion: Occasion, daysBefore: number, data: AppDa
     const age = occasion.turningAge ? `, исполнится ${formatAge(occasion.turningAge)}` : '';
     return {
       title: `🎂 ${when} день рождения: ${name}`,
-      body: `${daysBefore === 0 ? 'Сегодня' : dateText}${age}. Откройте — Claude подскажет идеи подарка и поздравления.`,
+      body: `${daysBefore === 0 ? 'Сегодня' : dateText}${age}. Не забудьте поздравить!`,
     };
   }
 
   const icon = occasion.kind === 'holiday' ? '🎉' : '📅';
-  const who = names.length > 0 ? `Поздравьте: ${names.join(', ')}. ` : '';
+  const who = names.length > 0 ? `Поздравьте: ${names.join(', ')}.` : 'Не забудьте поздравить близких.';
   const years = occasion.turningAge ? ` (${formatAge(occasion.turningAge)})` : '';
   return {
     title: `${icon} ${when}: ${occasion.title}${years}`,
-    body: `${daysBefore === 0 ? '' : `${dateText}. `}${who}Откройте, чтобы получить идеи поздравления.`,
+    body: `${daysBefore === 0 ? '' : `${dateText}. `}${who}`,
   };
 }
 

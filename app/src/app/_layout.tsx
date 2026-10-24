@@ -15,7 +15,7 @@ function useOpenOccasionFromNotification() {
       const id = occasionIdFromResponse(response);
       // Сбрасываем, чтобы при следующем запуске приложение не открыло этот повод снова.
       Notifications.clearLastNotificationResponse();
-      if (id) router.push({ pathname: '/occasion/[id]', params: { id, auto: '1' } });
+      if (id) router.push({ pathname: '/occasion/[id]', params: { id } });
     };
     // Приложение запустили нажатием на уведомление.
     open(Notifications.getLastNotificationResponse());
